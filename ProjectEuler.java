@@ -1,5 +1,7 @@
 package projecteuler;
 
+import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class ProjectEuler {
@@ -7,7 +9,7 @@ public class ProjectEuler {
         long startTime = System.nanoTime();
 
 
-        latticePaths();
+        numberLetterCount();
         
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;  // milliseconds.
@@ -19,6 +21,217 @@ public class ProjectEuler {
         
         
         System.out.println();
+    }
+
+    // If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
+    private static void numberLetterCount() {
+        
+        int n = 1000;
+        
+        int count = countLetters(n);
+
+        System.out.println(count);
+    }
+    
+    private static int countLetters(int n) {
+        if(n == 1000) {
+            String thousand = "onethousand";
+            return thousand.length() + countLetters(n - 1);
+        }
+        
+        if(n <= 0) {
+            return 0;
+        }
+        
+        System.out.println(getWordFor(n) + " : " + getWordFor(n).length());
+        
+        return getWordFor(n).length() + countLetters(n - 1);
+    }
+    
+    private static String getWordFor(int n) {
+        boolean teen = (n % 100) >= 10 && (n % 100) < 20;
+        String word = "";
+        if(n >= 100) {
+            char hundreds = (char) ((n / 100) + '0');
+            switch(hundreds) {
+                case '1':
+                    word += "onehundred";
+                    if(n != 100) {
+                        word += "and";
+                    }
+                    break;
+                case '2':
+                    word += "twohundred";
+                    if(n != 200) {
+                        word += "and";
+                    }
+                    break;
+                case '3':
+                    word += "threehundred";
+                    if(n != 300) {
+                        word += "and";
+                    }
+                    break;
+                case '4':
+                    word += "fourhundred";
+                    if(n != 400) {
+                        word += "and";
+                    }
+                    break;
+                case '5':
+                    word += "fivehundred";
+                    if(n != 500) {
+                        word += "and";
+                    }
+                    break;
+                case '6':
+                    word += "sixhundred";
+                    if(n != 600) {
+                        word += "and";
+                    }
+                    break;
+                case '7':
+                    word += "sevenhundred";
+                    if(n != 700) {
+                        word += "and";
+                    }
+                    break;
+                case '8':
+                    word += "eighthundred";
+                    if(n != 800) {
+                        word += "and";
+                    }
+                    break;
+                case '9':
+                    word += "ninehundred";
+                    if(n != 900) {
+                        word += "and";
+                    }
+                    break;
+            }
+        }
+        n %= 100;
+        if(n >= 10) {
+            char tens = (char) ((n / 10) + '0');
+            switch(tens) {
+                case '1':
+                    char ones = (char) ((n % 10) + '0');
+                    switch(ones) {
+                        case '0':
+                            word += "ten";
+                            break;
+                        case '1':
+                            word += "eleven";
+                            break;
+                        case '2':
+                            word += "twelve";
+                            break;
+                        case '3':
+                            word += "thirteen";
+                            break;
+                        case '4':
+                            word += "fourteen";
+                            break;
+                        case '5':
+                            word += "fifteen";
+                            break;
+                        case '6':
+                            word += "sixteen";
+                            break;
+                        case '7':
+                            word += "seventeen";
+                            break;
+                        case '8':
+                            word += "eighteen";
+                            break;
+                        case '9':
+                            word += "nineteen";
+                            break;
+                    }
+                    break;
+                case '2':
+                    word += "twenty";
+                    break;
+                case '3':
+                    word += "thirty";
+                    break;
+                case '4':
+                    word += "forty";
+                    break;
+                case '5':
+                    word += "fifty";
+                    break;
+                case '6':
+                    word += "sixty";
+                    break;
+                case '7':
+                    word += "seventy";
+                    break;
+                case '8':
+                    word += "eighty";
+                    break;
+                case '9':
+                    word += "ninety";
+                    break;
+            }
+        }
+        if(teen) {
+            return word;
+        }
+        n %= 10;
+        char ones = (char) (n + '0');
+        switch(ones) {
+            case '1':
+                word += "one";
+                break;
+            case '2':
+                word += "two";
+                break;
+            case '3':
+                word += "three";
+                break;
+            case '4':
+                word += "four";
+                break;
+            case '5':
+                word += "five";
+                break;
+            case '6':
+                word += "six";
+                break;
+            case '7':
+                word += "seven";
+                break;
+            case '8':
+                word += "eight";
+                break;
+            case '9':
+                word += "nine";
+                break;
+        }
+        
+        return word;
+    }
+
+    // What is the sum of the digits of the number 2^1000?
+    private static void powerDigitSum() {
+        
+        String base = "2";
+        int exponent = 1000; 
+        
+        BigInteger total = new BigInteger (base);
+        total = total.pow(exponent);
+        
+        System.out.println(total);
+        
+        String totalString = total.toString();
+        
+        int sum = 0;
+        for(char a : totalString.toCharArray()) {
+            sum += a - '0';
+        }
+        System.out.println(sum);
+        
     }
     
     // How many such routes are there through a 20×20 grid?
