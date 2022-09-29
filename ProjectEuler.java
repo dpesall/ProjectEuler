@@ -9,11 +9,18 @@ public class ProjectEuler {
         long startTime = System.nanoTime();
 
 
-        numberLetterCount();
+        practice();
         
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1000000;  // milliseconds.
         System.out.println("\nDuration: " + duration);
+    }
+
+    private static void practice() {
+
+        
+
+        System.out.println();
     }
     
     private static void template() {
@@ -21,6 +28,146 @@ public class ProjectEuler {
         
         
         System.out.println();
+    }
+    
+    // How many Sundays fell on the first of the month during the twentieth century (1 Jan 1901 to 31 Dec 2000)?
+    private static void CountingSundays() {
+        
+        int[] daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        
+        int year = 1901;
+        int month = 0;
+        int day = 0;
+        int weekDay = 1;
+        int endYear = 2001;
+        int sundayCount = 0;
+        
+        while(year != endYear) {
+            //System.out.println((day + 1) + "-" + (month + 1) + "-" + year + " : " + getWeekDayName(weekDay));
+            switch(month) {
+                case 0:
+                case 2:
+                case 4:
+                case 6:
+                case 7:
+                case 9:
+                case 11:
+                    if(day == 0 && weekDay == 6) {
+                        sundayCount++;
+                        System.out.println((day + 1) + "-" + (month + 1) + "-" + year + " : " + getWeekDayName(weekDay));
+                    }
+                    day++;
+                    if(day >= 31) {
+                        day = 0;
+                        month++;
+                        if(month > 11) {
+                            month = 0;
+                            year++;
+                        }
+                    }
+                    break;
+                case 3:
+                case 5:
+                case 8:
+                case 10:
+                    if(day == 0 && weekDay == 6) {
+                        sundayCount++;
+                        System.out.println((day + 1) + "-" + (month + 1) + "-" + year + " : " + getWeekDayName(weekDay));
+                    }
+                    day++;
+                    if(day >= 30) {
+                        day = 0;
+                        month++;
+                        if(month > 11) {
+                            month = 0;
+                            year++;
+                        }
+                    }
+                    break;
+                case 1:
+                    if(day == 0 && weekDay == 6) {
+                        sundayCount++;
+                        System.out.println((day + 1) + "-" + (month + 1) + "-" + year + " : " + getWeekDayName(weekDay));
+                    }
+                    day++;
+                    if((year % 100 != 0 || year % 400 == 0) && year % 4 == 0) {
+                        if(day >= 29) {
+                            day = 0;
+                            month++;
+                            if(month > 11) {
+                                month = 0;
+                                year++;
+                            }
+                        }
+                    } else {
+                        if(day >= 28) {
+                            day = 0;
+                            month++;
+                            if(month > 11) {
+                                month = 0;
+                                year++;
+                            }
+                        }
+                    }
+                    
+                    break;
+            }
+            weekDay = (weekDay + 1) % 7;
+        }
+
+        System.out.println(sundayCount);
+    }
+    
+    private static String getWeekDayName(int i) {
+        switch(i) {
+            case 0:
+                return "Monday";
+            case 1:
+                return "Tuesday";
+            case 2:
+                return "Wednesday";
+            case 3:
+                return "Thursday";
+            case 4:
+                return "Friday";
+            case 5:
+                return "Saturday";
+            case 6:
+                return "Sunday";
+        }
+        return "oops";
+    }
+    
+    // Find the maximum sum taking a path from top to bottom of the triangle below:
+    private static void maximumPathSum1() {
+        
+        int[][] arr = {
+                {75},
+                {95, 64},
+                {17, 47, 82},
+                {18, 35, 87, 10},
+                {20, 4, 82, 47, 65},
+                {19, 1, 23, 75, 3, 34},
+                {88, 2, 77, 73, 7, 63, 67},
+                {99, 65, 4, 28, 6, 16, 70, 92},
+                {41, 41, 26, 56, 83, 40, 80, 70, 33},
+                {41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
+                {53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
+                {70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
+                {91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
+                {63, 66, 4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
+                {4, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 4, 23},
+        };
+        
+        int sum = 0;
+        
+        for(int i = arr.length - 1; i > 0; i--) {
+            for(int k = 0; k < arr[i].length - 1; k++) {
+                int max = Math.max(arr[i][k] + arr[i - 1][k], arr[i][k + 1] + arr[i - 1][k]);
+                arr[i - 1][k] = max;
+            }
+        }
+        System.out.println(arr[0][0]);
     }
 
     // If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
